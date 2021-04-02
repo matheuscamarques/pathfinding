@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Path Finding</title>
+    <script src="Lista.js"></script>
+
+</head>
+
+<style>
+    body{
+        background-color: black;
+        color:  rgb(41, 241, 41);
+    }
+    .blocoBlue {
+        background-color: blue;
+
+    }
+
+    .blocoRed {
+        background-color: red;
+        width: 10px;
+        height: 10px;
+    }
+
+    .margin{
+        margin: 0 auto;
+        align-items: center;
+        text-align: center;
+        }
+</style>
+
+<body>
+    <div style="width:100%;display: flex;">
+     
+        <div style="margin-left: 50px;display: flex;">
+            <div  class="margin" >
+                pilhaAberta
+                <div id="pilhaAberta">
+
+                </div>
+            </div>
+            <div class="margin" style="margin-left: 50px;">
+                pilhaFechada
+                <div id="pilhaFechada"> </div>
+            </div>
+
+            <div  style="margin-left: 50px;">
+                PathFind
+                <div id="pathfindContent"></div>
+            </div>
+
+        </div>
+        <div style="margin-left: 50px; color:white; font-weight: bold; font-size: large;" id="grid"></div>
+
+        <div style="margin-left: 50px;" id="find"></div>
+    </div>
+
+    <div>
+        
+
+    </div>
+</body>
+
+<script src="Main.js"></script>
+
+</html>
