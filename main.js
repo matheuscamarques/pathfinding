@@ -6,8 +6,9 @@ class Spot {
     g = 0;
     h = 0;
     neighbors = [];
-    anterior = undefined;
+    previous = undefined;
     wall = false;
+    direcion  = '';
 }
 
 function distancia(a, b) {
@@ -15,13 +16,6 @@ function distancia(a, b) {
     return value;
 }
 
-function heuristica(spot, inicio, fim) {
-    // custo do inicio ao atual
-    spot.g = Math.round(distancia(spot, inicio));
-    spot.h = Math.round(distancia(spot, fim));
-    //custo inicial até o atual
-    spot.f = spot.g + spot.h;
-}
 
 function addNeighbors(spot, grid, m, n) {
     let i = spot.i;
@@ -40,18 +34,18 @@ function addNeighbors(spot, grid, m, n) {
     if (j > 0) {
         spot.neighbors.push(grid[i][j - 1]);
     }
-    if (i > 0 && j > 0) {
-        spot.neighbors.push(grid[i - 1][j - 1]);
-    }
-    if (i < cols - 1 && j > 0) {
-        spot.neighbors.push(grid[i + 1][j - 1]);
-    }
-    if (i > 0 && j < rows - 1) {
-        spot.neighbors.push(grid[i - 1][j + 1]);
-    }
-    if (i < cols - 1 && j < rows - 1) {
-        spot.neighbors.push(grid[i + 1][j + 1]);
-    }//console.log(grid[i][j - 1])
+    // if (i > 0 && j > 0) {
+    //     spot.neighbors.push(grid[i - 1][j - 1]);
+    // }
+    // if (i < cols - 1 && j > 0) {
+    //     spot.neighbors.push(grid[i + 1][j - 1]);
+    // }
+    // if (i > 0 && j < rows - 1) {
+    //     spot.neighbors.push(grid[i - 1][j + 1]);
+    // }
+    // if (i < cols - 1 && j < rows - 1) {
+    //     spot.neighbors.push(grid[i + 1][j + 1]);
+    // }
 }
 
 
@@ -77,9 +71,32 @@ for (var i = 0; i < n; i++) {
         grid[i][j] = new Spot();
         grid[i][j].i = i;
         grid[i][j].j = j;
-        grid[i][j].value = '0';
+        grid[i][j].value = "\xa0\xa0";
         let ramdom = getRandomArbitrary(0, 10);
-        if (ramdom < 2) {
+
+
+        if (ramdom < 1) {
+            grid[i][j].value = '#';
+            grid[i][j].wall = true;
+        }
+
+
+        if (i == 0) {
+            grid[i][j].value = '#';
+            grid[i][j].wall = true;
+        }
+
+        if (i == n - 1) {
+            grid[i][j].value = '#';
+            grid[i][j].wall = true;
+        }
+
+        if (j == 0) {
+            grid[i][j].value = '#';
+            grid[i][j].wall = true;
+        }
+
+        if (j == m - 1) {
             grid[i][j].value = '#';
             grid[i][j].wall = true;
         }
@@ -89,8 +106,8 @@ for (var i = 0; i < n; i++) {
     }
 }
 
-let start = grid[getRandomArbitrary(0, n - 1)][getRandomArbitrary(0, m - 1)];
-let end = grid[getRandomArbitrary(0, n - 1)][getRandomArbitrary(0, m - 1)];
+let start = grid[getRandomArbitrary(1, n - 2)][getRandomArbitrary(1, m - 2)];
+let end = grid[getRandomArbitrary(1, n - 2)][getRandomArbitrary(1, m - 2)];
 
 
 for (var i = 0; i < n; i++) {
@@ -152,10 +169,12 @@ let interval = setInterval(() => {
 
         if (current === end) {
             //noLoop();
+
             PathFind = [];
             var temp = current;
             PathFind.push(temp);
             while (temp.previous) {
+
                 PathFind.push(temp.previous);
                 temp = temp.previous;
                 printPathFindFinding();
@@ -206,24 +225,49 @@ let interval = setInterval(() => {
     }
 
     for (let i = 0; i < pilhaAberta.length; i++) {
-        pilhaAberta[i].value = '1';
+        pilhaAberta[i].value = '*';
     }
 
     for (let i = 0; i < pilhaFechada.length; i++) {
-        pilhaFechada[i].value = '2';
+        pilhaFechada[i].value = '\xa0\xa0';
     }
 
 
 
     if (stop) {
         for (let i = 0; i < pilhaAberta.length; i++) {
-            pilhaAberta[i].value = '#';
+            pilhaAberta[i].value = '\xa0\xa0';
         }
         for (let i = 0; i < pilhaFechada.length; i++) {
-            pilhaFechada[i].value = '#';
+            pilhaFechada[i].value = '\xa0\xa0';
         }
         for (let i = 0; i < PathFind.length; i++) {
-            PathFind[i].value = '*';
+            let temp = PathFind[i];
+            temp.value = "*"; //comente para adicionar direçoes porém buga o grid
+
+            let direcion = [
+                "⭡",
+                ">",
+                "<",
+                "↓"
+            ];
+
+            let vector = [
+                [-1,  0], // cima
+                [ 0, -1], //direita
+                [ 0,  1], // esquerda
+                [ 1,  0]// baixo  
+            ]
+            if(temp.previous != null) {
+                let vec = [ temp.i - temp.previous.i , temp.previous.j - temp.j];
+
+                for (let i = 0; i < vector.length; i++) {
+                    if (vec[0] == vector[i][0] && vec[1] == vector[i][1]) {
+                        temp.previous.value = direcion[i];
+                    }
+                }
+            }
+
         }
         drawGrid();
 
