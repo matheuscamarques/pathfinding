@@ -74,11 +74,11 @@ for (var i = 0; i < n; i++) {
         grid[i][j].value = "\xa0\xa0";
         let ramdom = getRandomArbitrary(0, 10);
 
-    /*
+        /*
         if (ramdom < 1) {
             grid[i][j].value = '#';
             grid[i][j].wall = true;
-        }
+        }*/
 
 
         if (i == 0) {
@@ -99,10 +99,10 @@ for (var i = 0; i < n; i++) {
         if (j == m - 1) {
             grid[i][j].value = '#';
             grid[i][j].wall = true;
-        }*/
+        }
 
         //addNeighbors(grid[i][j],grid,m,n);
-        if(i == m/2){
+        if(j == n/2){
              grid[i][j].value = '#';
             grid[i][j].wall = true;
         }
