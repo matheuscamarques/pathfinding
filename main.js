@@ -201,22 +201,17 @@ let interval = setInterval(() => {
                 var tempG = current.g + heuristic(neighbor, current);
 
                 var newPathFind = false;
-                if (pilhaAberta.includes(neighbor)) {
-                    if (tempG < neighbor.g) {
-                        neighbor.g = tempG;
-                        newPathFind = true;
-                    }
-                } else {
-                    neighbor.g = tempG;
-                    newPathFind = true;
+                if (!pilhaAberta.includes(neighbor)) {
                     pilhaAberta.push(neighbor);
+                } else if(tempG >=  neighbor.g){
+                    continue;
                 }
 
-                if (newPathFind) {
+                    neighbor.g = tempG;
                     neighbor.h = heuristic(neighbor, end);
                     neighbor.f = neighbor.g + neighbor.h;
                     neighbor.previous = current;
-                }
+                
             }
 
         }
